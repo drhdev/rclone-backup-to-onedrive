@@ -56,7 +56,7 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
 
 2. **Add the following line:**
    ```plaintext
-   backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh, /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod
+   backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh, /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/touch, /bin/ls, /usr/bin/find
    ```
 
 #### Step 4: Set Up `rclone` for OneDrive
