@@ -16,7 +16,16 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
 
 ### 2. Detailed Setup Instructions
 
-#### Step 1: Create a Backup User
+#### Step 1. Install Required Software
+
+First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
+
+   ```bash
+   sudo apt update
+   sudo apt install rclone cron
+   ```
+
+#### Step 2: Create a Backup User
 
 1. **Create the backup user:**
    ```bash
@@ -28,7 +37,7 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
    sudo usermod -aG sudo backupuser
    ```
 
-#### Step 2: Copy and Edit the Script
+#### Step 3: Copy and Edit the Script
 
 1. **Switch to the backupuser:**
    ```bash
@@ -46,8 +55,15 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
    ```bash
    sudo chmod +x /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
+2. **Set permissions for the backup directory:**
 
-#### Step 3: Allow Password-less Sudo for the Script
+   ```bash
+   sudo mkdir -p /var/backups/rclone_backup_to_onedrive
+   sudo chown -R backupuser:backupuser /var/backups
+   ```
+
+
+#### Step 4: Allow Password-less Sudo for the Script
 
 1. **Edit the sudoers file:**
    ```bash
@@ -57,10 +73,19 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
 2. **Add the following lines:**
    ```plaintext
    backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh
-   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/touch, /bin/ls, /usr/bin/find
+   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone
+   backupuser ALL=(ALL) NOPASSWD: /bin/tar
+   backupuser ALL=(ALL) NOPASSWD: /bin/mv
+   backupuser ALL=(ALL) NOPASSWD: /bin/chmod
+   backupuser ALL=(ALL) NOPASSWD: /bin/touch
+   backupuser ALL=(ALL) NOPASSWD: /bin/ls
+   backupuser ALL=(ALL) NOPASSWD: /usr/bin/find
+   backupuser ALL=(ALL) NOPASSWD: /bin/mkdir
+   backupuser ALL=(ALL) NOPASSWD: /bin/rm
+   backupuser ALL=(ALL) NOPASSWD: /usr/bin/tee
    ```
 
-#### Step 4: Set Up `rclone` for OneDrive
+#### Step 5: Set Up `rclone` for OneDrive
 
 1. **Install rclone:**
    ```bash
@@ -119,14 +144,14 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
       exit
       ```
 
-#### Step 5: Run the Script Manually
+#### Step 6: Run the Script Manually
 
 1. **Run the script manually:**
    ```bash
    sudo -u backupuser /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
 
-#### Step 6: Set Up Cron Job
+#### Step 7: Set Up Cron Job
 
 1. **Edit the crontab for backupuser:**
    ```bash
@@ -138,14 +163,15 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
    0 2 * * * /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
 
-#### Step 7: Monitoring
+#### Step 8: Monitoring
 
 1. **Regulary check the log file for errors:**
    ```bash
-   cat /var/log/rclone_backup_to_onedrive.log
+   cd /var/log
    ```
+   Look for rclone_backup_to_onedrive.log logfiles.
 
-#### Step 8: Restoring Backups
+#### Step 9: Restoring Backups
 
 To restore backups manually, follow these instructions:
 
