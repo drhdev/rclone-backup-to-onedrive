@@ -68,9 +68,55 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
 
 2. **Configure rclone:**
    ```bash
-   rclone config
+   sudo -u backupuser -i
+   sudo rclone config
    ```
    Follow the prompts to set up OneDrive.
+
+3. **Create a new remote:**
+   - Type `n` for a new remote and press Enter.
+
+4. **Name the remote:**
+   - Enter a name for the remote, for example, `onedrive`.
+
+5. **Choose your cloud storage provider:**
+   - You will be presented with a list of cloud storage providers. Type the number corresponding to OneDrive (typically 22 for Microsoft OneDrive) and press Enter.
+
+6. **Client ID and Secret:**
+   - If you have a custom client ID and secret, enter them when prompted. Otherwise, leave these fields blank and press Enter.
+
+7. **Edit advanced config:**
+   - Type `n` and press Enter.
+
+8. **Do not use auto config:**
+   - When aksed for using auto config, type `n` and press Enter since you are on a remote server without a GUI. This will give you instructions how to ru web browser for authentication.
+   - Follow the on-screen instructions to perform a manual configuration (e.g. on a Mac by using `rclone authorize "onedrive"` after installing rclone locally with `brew install rclone`).
+
+9. **Authenticate:**
+   - A browser window will open, prompting you to log in to your Microsoft account and grant access to `rclone`.
+   - After granting access, you will receive a success message, and you can close the browser.
+
+10. **Finish the configuration:**
+   - In the local terminal you will find a message like `Paste the following into your remote machine --->` followed by a long access token.
+   - Copy this exact access token and enter it in the terminal window of your server where it says `Then paste the result below:` and the line starts with `result>`.
+   - You should then be able to `Choose a number from below, or type in an existing value` where you choose `1`for `OneDrive Personal or Business`.
+   - The terminal will return `Found 1 drives, please select the one you want to use:` and you choose `0` and confirm with `Y` and the question about the token also with `Y`.
+   - You then get to see that onedrive is successfully configured as a a `current remote`
+   - Type `q` to quit the `rclone` configuration.
+
+11. **Test the configuration:**
+    Verify the setup by listing the contents of your OneDrive.
+
+      ```bash
+      rclone lsf onedrive: -vv
+      ```
+
+12. **Exit from backupuser:**
+    Leave the backupuser mode.
+
+    ```bash
+      exit
+      ```
 
 #### Step 5: Run the Script Manually
 
@@ -91,44 +137,14 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
    0 2 * * * /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
 
-#### Step 7: Set Up Logrotate
+#### Step 7: Monitoring
 
-1. **Create a logrotate configuration file:**
+1. **Regulary check the log file for errors:**
    ```bash
-   sudo nano /etc/logrotate.d/rclone_backup_to_onedrive
+   cat /var/log/rclone_backup_to_onedrive.log
    ```
 
-2. **Add the following content:**
-   ```plaintext
-   /var/log/backup_to_onedrive.log {
-       daily
-       rotate 7
-       compress
-       missingok
-       notifempty
-       create 0640 backupuser backupuser
-       sharedscripts
-       postrotate
-           /usr/sbin/service cron reload > /dev/null
-       endscript
-   }
-   ```
-
-#### Step 8: Testing the `rclone` Connection
-
-1. **Test the `rclone` connection:**
-   ```bash
-   rclone lsf onedrive:/
-   ```
-
-#### Step 9: Finding Errors in Log Files
-
-1. **Check the log file for errors:**
-   ```bash
-   cat /var/log/backup_to_onedrive.log
-   ```
-
-#### Step 10: Restoring Backups
+#### Step 8: Restoring Backups
 
 To restore backups manually, follow these instructions:
 
