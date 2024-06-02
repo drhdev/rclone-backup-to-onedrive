@@ -204,3 +204,5 @@ To restore backups manually, follow these instructions:
   ```
 
 These steps provide a comprehensive guide to setting up and using the `rclone_backup_to_onedrive.sh` script, ensuring backups are properly configured, executed, and recoverable.
+
+*LOGGING NEEDS TO BE TURNED OFF*
