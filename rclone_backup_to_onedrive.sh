@@ -5,8 +5,7 @@
 ############################
 
 # Logging Configuration
-LOGFILE="/var/log/rclone_backup_to_onedrive.log"
-MAX_LOGS=7 # Maximum number of log files to keep
+#LOGFILE="/var/log/rclone_backup_to_onedrive.log"
 
 # Backup Sources Configuration
 declare -A BACKUP_PATHS=(
@@ -46,25 +45,17 @@ BACKUP_FILENAME="$DATE-$CHOSENNAME.tar.gz" # Example: 20230601123000-servername.
 # SCRIPT LOGIC             #
 ############################
 
-# Function to Rotate Logs
-rotate_logs() {
-    if [ -f "$LOGFILE" ]; then
-        mv "$LOGFILE" "$LOGFILE.$(date +%Y%m%d%H%M%S)"
-    fi
-
-    # Remove old logs
-    ls -1t ${LOGFILE}* | tail -n +$(($MAX_LOGS + 1)) | xargs -I {} rm -- {}
-}
-
-# Rotate logs at the start of the script
-rotate_logs
+# Ensure the log file exists and has the correct permissions
+#sudo touch $LOGFILE
+#sudo chown backupuser:backupuser $LOGFILE
+#sudo chmod 644 $LOGFILE
 
 # Redirect output and errors to log file
-exec > >(tee -a $LOGFILE)
-exec 2> >(tee -a $LOGFILE >&2)
+#exec > >(sudo tee -a $LOGFILE)
+#exec 2> >(sudo tee -a $LOGFILE >&2)
 
 # Create backup directory if it doesn't exist
-mkdir -p $LOCAL_BACKUP_DIR
+sudo mkdir -p $LOCAL_BACKUP_DIR
 
 # Create OneDrive directories if they don't exist
 rclone mkdir $DAILY_BACKUP_DIR
@@ -94,7 +85,7 @@ if [ $(date +%d) -eq 01 ]; then
 fi
 
 # Remove local backup files older than the daily retention period
-find $LOCAL_BACKUP_DIR -type f -name "*.tar.gz*" -mtime +$DAILY_RETENTION -exec rm {} \;
+sudo find $LOCAL_BACKUP_DIR -type f -name "*.tar.gz*" -mtime +$DAILY_RETENTION -exec rm {} \;
 
 # Cleanup remote backups older than retention periods
 rclone delete --min-age ${DAILY_RETENTION}d $DAILY_BACKUP_DIR/
@@ -133,4 +124,3 @@ rclone delete --min-age ${MONTHLY_RETENTION}d $MONTHLY_BACKUP_DIR/
 #    sudo tar -xzf /var/restores/20230601123000-servername.tar.gz -C /
 
 # Note: Ensure you have the correct permissions to restore files to the desired locations.
-
