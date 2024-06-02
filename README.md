@@ -54,9 +54,10 @@ The `rclone_backup_to_onedrive.sh` script automates the process of backing up sp
    sudo visudo
    ```
 
-2. **Add the following line:**
+2. **Add the following lines:**
    ```plaintext
-   backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh, /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/touch, /bin/ls, /usr/bin/find
+   backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh
+   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/touch, /bin/ls, /usr/bin/find
    ```
 
 #### Step 4: Set Up `rclone` for OneDrive
