@@ -55,14 +55,24 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
    ```bash
    sudo chmod +x /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
-5. **Set permissions for the backup directory:**
+
+#### Step 4: Prepare Backup Directory and Logfile
+   
+1. **Create and Set permissions for the backup directory:**
    ```bash
    sudo mkdir -p /var/backups/rclone_backup_to_onedrive
-   sudo chown -R backupuser:backupuser /var/backups
+   sudo chown -R backupuser:backupuser /var/backups/rclone_backup_to_onedrive
+   sudo chmod 755 /var/backups/rclone_backup_to_onedrive
    ```
 
+2. **Create and Set permissions for the logfile:**
+   ```bash
+   sudo touch /var/log/rclone_backup_to_onedrive.log
+   sudo chown backupuser:backupuser /var/log/rclone_backup_to_onedrive.log
+   sudo chmod 644 /var/log/rclone_backup_to_onedrive.log
+   ```
 
-#### Step 4: Allow Password-less Sudo for the Script
+#### Step 5: Allow Password-less Sudo for the Script
 
 1. **Edit the sudoers file:**
    ```bash
@@ -72,10 +82,10 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
 2. **Add the following lines:**
    ```plaintext
    backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh
-   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/chown, /bin/touch, /bin/ls, /usr/bin/find, /bin/mkdir
+   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/touch, /bin/ls, /usr/bin/find, /bin/mkdir
    ```
 
-#### Step 5: Set Up `rclone` for OneDrive
+#### Step 6: Set Up `rclone` for OneDrive
 
 1. **Install rclone:**
    ```bash
@@ -134,14 +144,14 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
       exit
       ```
 
-#### Step 6: Run the Script Manually
+#### Step 7: Run the Script Manually
 
 1. **Run the script manually:**
    ```bash
    sudo -u backupuser /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
 
-#### Step 7: Set Up Cron Job
+#### Step 8: Set Up Cron Job
 
 1. **Edit the crontab for backupuser:**
    ```bash
@@ -153,7 +163,7 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
    0 2 * * * /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
 
-#### Step 8: Monitoring
+#### Step 9: Monitoring
 
 1. **Regulary check the log file for errors:**
    ```bash
@@ -161,7 +171,7 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
    ```
    Look for rclone_backup_to_onedrive.log logfiles.
 
-#### Step 9: Restoring Backups
+#### Step 10: Restoring Backups
 
 To restore backups manually, follow these instructions:
 
@@ -203,9 +213,3 @@ To restore backups manually, follow these instructions:
   ```
 
 These steps provide a comprehensive guide to setting up and using the `rclone_backup_to_onedrive.sh` script, ensuring backups are properly configured, executed, and recoverable.
-
-*IMPORTANT NOTE: LOGGING NEEDS TO BE TURNED OFF UNTIL FIXED*
-
-sudo mkdir -p /var/backups/rclone_backup_to_onedrive
-sudo chown -R backupuser:backupuser /var/backups/rclone_backup_to_onedrive
-sudo chmod 755 /var/backups/rclone_backup_to_onedrive
