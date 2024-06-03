@@ -25,7 +25,7 @@ declare -A BACKUP_PATHS=(
 # Backup Destination Configuration
 CHOSENNAME=$(hostname)          # Change this to your preferred backup identifier like "myserver"
 DATE=$(date +%Y%m%d%H%M%S)
-LOCAL_BACKUP_DIR="/var/backups/backup_to_onedrive_local"
+LOCAL_BACKUP_DIR="/var/backups/rclone_backup_to_onedrive"
 DAILY_BACKUP_DIR="onedrive:/backups/$CHOSENNAME/daily"
 WEEKLY_BACKUP_DIR="onedrive:/backups/$CHOSENNAME/weekly"
 MONTHLY_BACKUP_DIR="onedrive:/backups/$CHOSENNAME/monthly"
