@@ -206,3 +206,7 @@ To restore backups manually, follow these instructions:
 These steps provide a comprehensive guide to setting up and using the `rclone_backup_to_onedrive.sh` script, ensuring backups are properly configured, executed, and recoverable.
 
 *IMPORTANT NOTE: LOGGING NEEDS TO BE TURNED OFF UNTIL FIXED*
+
+sudo mkdir -p /var/backups/rclone_backup_to_onedrive
+sudo chown -R backupuser:backupuser /var/backups/rclone_backup_to_onedrive
+sudo chmod 755 /var/backups/rclone_backup_to_onedrive
