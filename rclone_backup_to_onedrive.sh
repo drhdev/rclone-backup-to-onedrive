@@ -5,7 +5,7 @@
 ############################
 
 # Logging Configuration
-#LOGFILE="/var/log/rclone_backup_to_onedrive.log"
+LOGFILE="/var/log/rclone_backup_to_onedrive.log"
 
 # Backup Sources Configuration
 declare -A BACKUP_PATHS=(
@@ -44,11 +44,6 @@ BACKUP_FILENAME="$DATE-$CHOSENNAME.tar.gz" # Example: 20230601123000-servername.
 ############################
 # SCRIPT LOGIC             #
 ############################
-
-# Ensure the log file exists and has the correct permissions
-#sudo touch $LOGFILE
-#sudo chown backupuser:backupuser $LOGFILE
-#sudo chmod 644 $LOGFILE
 
 # Redirect output and errors to log file
 #exec > >(sudo tee -a $LOGFILE)
