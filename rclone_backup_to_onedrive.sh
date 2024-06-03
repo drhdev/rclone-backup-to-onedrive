@@ -45,12 +45,11 @@ BACKUP_FILENAME="$DATE-$CHOSENNAME.tar.gz" # Example: 20230601123000-servername.
 # SCRIPT LOGIC             #
 ############################
 
-# Redirect output and errors to log file
+# Redirect stdout to append to the logfile
 exec > >(sudo tee -a $LOGFILE)
-exec 2> >(sudo tee -a $LOGFILE >&2)
 
-# Create backup directory if it doesn't exist
-sudo mkdir -p $LOCAL_BACKUP_DIR
+# Redirect stderr to append to the logfile
+exec 2> >(sudo tee -a $LOGFILE >&2)
 
 # Create OneDrive directories if they don't exist
 rclone mkdir $DAILY_BACKUP_DIR
