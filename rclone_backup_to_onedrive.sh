@@ -46,8 +46,8 @@ BACKUP_FILENAME="$DATE-$CHOSENNAME.tar.gz" # Example: 20230601123000-servername.
 ############################
 
 # Redirect output and errors to log file
-#exec > >(sudo tee -a $LOGFILE)
-#exec 2> >(sudo tee -a $LOGFILE >&2)
+exec > >(sudo tee -a $LOGFILE)
+exec 2> >(sudo tee -a $LOGFILE >&2)
 
 # Create backup directory if it doesn't exist
 sudo mkdir -p $LOCAL_BACKUP_DIR
