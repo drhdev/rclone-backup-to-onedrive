@@ -46,7 +46,7 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
 
 2. **Create the script file:**
    ```bash
-   nano /usr/local/bin/rclone_backup_to_onedrive.sh
+   sudo nano /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
 
 3. **Copy and paste the script into the file and save it (Ctrl+X, then Y, then Enter).**
@@ -55,8 +55,7 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
    ```bash
    sudo chmod +x /usr/local/bin/rclone_backup_to_onedrive.sh
    ```
-2. **Set permissions for the backup directory:**
-
+5. **Set permissions for the backup directory:**
    ```bash
    sudo mkdir -p /var/backups/rclone_backup_to_onedrive
    sudo chown -R backupuser:backupuser /var/backups
