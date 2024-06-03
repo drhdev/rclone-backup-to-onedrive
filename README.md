@@ -72,7 +72,7 @@ First, ensure that `rclone` and `cron` are installed on your Ubuntu server.
 2. **Add the following lines:**
    ```plaintext
    backupuser ALL=(ALL) NOPASSWD: /usr/local/bin/rclone_backup_to_onedrive.sh
-   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/touch, /bin/ls, /usr/bin/find, /bin/mkdir
+   backupuser ALL=(ALL) NOPASSWD: /usr/bin/rclone, /bin/tar, /bin/mv, /bin/chmod, /bin/chown, /bin/touch, /bin/ls, /usr/bin/find, /bin/mkdir
    ```
 
 #### Step 5: Set Up `rclone` for OneDrive
