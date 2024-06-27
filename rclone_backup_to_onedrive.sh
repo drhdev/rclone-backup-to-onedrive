@@ -51,6 +51,10 @@ exec > >(sudo tee -a $LOGFILE)
 # Redirect stderr to append to the logfile
 exec 2> >(sudo tee -a $LOGFILE >&2)
 
+# Refresh OneDrive token
+echo "Refreshing OneDrive token..." | sudo tee -a $LOGFILE
+rclone config reconnect onedrive: | sudo tee -a $LOGFILE
+
 # Create OneDrive directories if they don't exist
 rclone mkdir $DAILY_BACKUP_DIR
 rclone mkdir $WEEKLY_BACKUP_DIR
@@ -118,3 +122,4 @@ rclone delete --min-age ${MONTHLY_RETENTION}d $MONTHLY_BACKUP_DIR/
 #    sudo tar -xzf /var/restores/20230601123000-servername.tar.gz -C /
 
 # Note: Ensure you have the correct permissions to restore files to the desired locations.
+
